@@ -18,9 +18,9 @@ export function StepProgress({ currentStep, totalSteps }: StepProgressProps) {
             <div
               className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 ${
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
+                  ? "bg-neutral-400 text-primary-foreground shadow-sm"
                   : isCompleted
-                    ? "bg-secondary text-secondary-foreground"
+                    ? "bg-green-700 text-secondary-foreground"
                     : "bg-muted text-muted-foreground"
               }`}
             >

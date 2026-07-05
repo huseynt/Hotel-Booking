@@ -42,7 +42,7 @@ export function CitizenshipForm() {
           <select
             id="citizenship"
             {...register("citizenship")}
-            className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full rounded-xl border border-border bg-background px-4 py-3 text-neutral-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring"
           >
             <option value="">-- Choose --</option>
             {countries.map((country) => (

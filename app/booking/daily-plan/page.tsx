@@ -74,7 +74,7 @@ export default function DailyPlanPage() {
                     onChange={(e) =>
                       handleHotelChange(daily.day, e.target.value ? Number(e.target.value) : null)
                     }
-                    className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground transition-colors duration-200"
+                    className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-neutral-500 transition-colors duration-200"
                   >
                     <option value="">-- Select hotel --</option>
                     {destinationHotels.map((hotel) => (
@@ -102,7 +102,7 @@ export default function DailyPlanPage() {
                           handleMealChange(daily.day, "lunch", e.target.value ? Number(e.target.value) : null)
                         }
                         disabled={boardType === "HB" && daily.dinnerMealId !== null}
-                        className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground transition-colors duration-200 disabled:opacity-50"
+                        className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-neutral-500 transition-colors duration-200 disabled:opacity-50"
                       >
                         <option value="">-- None --</option>
                         {mealsByType.lunch.map((meal) => (
@@ -123,7 +123,7 @@ export default function DailyPlanPage() {
                           handleMealChange(daily.day, "dinner", e.target.value ? Number(e.target.value) : null)
                         }
                         disabled={boardType === "HB" && daily.lunchMealId !== null}
-                        className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground transition-colors duration-200 disabled:opacity-50"
+                        className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-neutral-500 transition-colors duration-200 disabled:opacity-50"
                       >
                         <option value="">-- None --</option>
                         {mealsByType.dinner.map((meal) => (
