@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: 248 245 239;
+  --foreground: 30 41 59;
+  --card: 255 252 248;
+  --card-foreground: 15 23 42;
+  --primary: 15 61 62;
+  --primary-foreground: 255 252 248;
+  --secondary: 232 163 61;
+  --secondary-foreground: 15 23 42;
+  --muted: 236 229 219;
+  --muted-foreground: 100 116 139;
+  --accent: 224 102 77;
+  --accent-foreground: 255 255 255;
+  --border: 223 214 201;
+  --input: 223 214 201;
+  --ring: 224 102 77;
+  --success: 46 125 100;
+  --success-foreground: 255 255 255;
+  --danger: 190 61 61;
+  --danger-foreground: 255 255 255;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: 10 15 21;
+  --foreground: 244 239 230;
+  --card: 17 24 39;
+  --card-foreground: 244 239 230;
+  --primary: 84 184 171;
+  --primary-foreground: 10 15 21;
+  --secondary: 242 181 102;
+  --secondary-foreground: 10 15 21;
+  --muted: 30 41 59;
+  --muted-foreground: 148 163 184;
+  --accent: 244 120 94;
+  --accent-foreground: 255 255 255;
+  --border: 51 65 85;
+  --input: 51 65 85;
+  --ring: 244 120 94;
+  --success: 74 222 128;
+  --success-foreground: 10 15 21;
+  --danger: 248 113 113;
+  --danger-foreground: 10 15 21;
+}
+
+@theme inline {
+  --color-background: rgb(var(--background) / <alpha-value>);
+  --color-foreground: rgb(var(--foreground) / <alpha-value>);
+  --color-card: rgb(var(--card) / <alpha-value>);
+  --color-card-foreground: rgb(var(--card-foreground) / <alpha-value>);
+  --color-primary: rgb(var(--primary) / <alpha-value>);
+  --color-primary-foreground: rgb(var(--primary-foreground) / <alpha-value>);
+  --color-secondary: rgb(var(--secondary) / <alpha-value>);
+  --color-secondary-foreground: rgb(var(--secondary-foreground) / <alpha-value>);
+  --color-muted: rgb(var(--muted) / <alpha-value>);
+  --color-muted-foreground: rgb(var(--muted-foreground) / <alpha-value>);
+  --color-accent: rgb(var(--accent) / <alpha-value>);
+  --color-accent-foreground: rgb(var(--accent-foreground) / <alpha-value>);
+  --color-border: rgb(var(--border) / <alpha-value>);
+  --color-input: rgb(var(--input) / <alpha-value>);
+  --color-ring: rgb(var(--ring) / <alpha-value>);
+  --color-success: rgb(var(--success) / <alpha-value>);
+  --color-success-foreground: rgb(var(--success-foreground) / <alpha-value>);
+  --color-danger: rgb(var(--danger) / <alpha-value>);
+  --color-danger-foreground: rgb(var(--danger-foreground) / <alpha-value>);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+
+* {
+  @apply border-border;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 280ms ease-out both;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 500ms ease-out both;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 360ms ease-out both;
+  }
+}
