@@ -7,6 +7,6 @@ export default function robots() {
         disallow: ["/booking"],
       },
     ],
-    sitemap: "http://localhost:3000/sitemap.xml",
+    sitemap: "https://booking.huseyn.space/sitemap.xml",
   };
 }

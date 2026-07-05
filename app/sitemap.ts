@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "http://localhost:3000/",
+      url: "https://booking.huseyn.space/",
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 1,
     },
   ];
