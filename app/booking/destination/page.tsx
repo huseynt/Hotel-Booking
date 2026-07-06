@@ -1,28 +1,39 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDestination } from "@/store/bookingSlice";
 import { destinationSchema, type DestinationFormData } from "@/lib/validation";
 import { destinationCountries } from "@/lib/data";
 import { BookingLayout } from "@/components/booking/BookingLayout";
 import { useBookingGuard } from "@/lib/booking/guards";
+import type { RootState } from "@/store";
 
 export default function DestinationPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { isChecking } = useBookingGuard({ requiresCitizenship: true, requiresDates: true });
+  const savedDestination = useSelector((state: RootState) => state.booking.destinationCountry);
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors, isValid },
   } = useForm<DestinationFormData>({
     resolver: zodResolver(destinationSchema),
     mode: "onChange",
+    defaultValues: {
+      destination: savedDestination || "",
+    },
   });
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
 
   if (isChecking) return null;
 

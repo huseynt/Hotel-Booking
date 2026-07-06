@@ -1,15 +1,17 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setBoardType } from "@/store/bookingSlice";
 import { boardTypeSchema, type BoardTypeFormData } from "@/lib/validation";
 import { boardTypes } from "@/lib/data";
 import { BookingLayout } from "@/components/booking/BookingLayout";
 import { Card, CardContent } from "@/components/ui/Card";
 import { useBookingGuard } from "@/lib/booking/guards";
+import type { RootState } from "@/store";
 
 export default function BoardTypePage() {
   const router = useRouter();
@@ -19,16 +21,25 @@ export default function BoardTypePage() {
     requiresDates: true,
     requiresDestination: true,
   });
+  const savedBoardType = useSelector((state: RootState) => state.booking.boardType);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    trigger,
   } = useForm<BoardTypeFormData>({
     resolver: zodResolver(boardTypeSchema),
     mode: "onChange",
+    defaultValues: {
+      boardType: savedBoardType || undefined,
+    },
   });
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
 
   const selectedBoardType = watch("boardType");
 

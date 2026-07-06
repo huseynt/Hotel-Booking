@@ -1,13 +1,15 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDateRange } from "@/store/bookingSlice";
 import { dateRangeSchema, type DateRangeFormData } from "@/lib/validation";
 import { BookingLayout } from "@/components/booking/BookingLayout";
 import { useBookingGuard } from "@/lib/booking/guards";
+import type { RootState } from "@/store";
 
 function countNights(startDate: string, endDate: string) {
   if (!startDate || !endDate) return 0;
@@ -15,20 +17,40 @@ function countNights(startDate: string, endDate: string) {
   return Math.round(diff / (1000 * 60 * 60 * 24));
 }
 
+function addDays(dateStr: string, days: number) {
+  const date = new Date(dateStr);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().split("T")[0];
+}
+
 export default function DatesPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { isChecking } = useBookingGuard({ requiresCitizenship: true });
+  const savedStartDate = useSelector((state: RootState) => state.booking.startDate);
+  const savedNumberOfDays = useSelector((state: RootState) => state.booking.numberOfDays);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    trigger,
   } = useForm<DateRangeFormData>({
     resolver: zodResolver(dateRangeSchema),
     mode: "onChange",
+    defaultValues: {
+      startDate: savedStartDate || "",
+      endDate:
+        savedStartDate && savedNumberOfDays
+          ? addDays(savedStartDate, savedNumberOfDays)
+          : "",
+    },
   });
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
 
   const startDate = watch("startDate");
   const endDate = watch("endDate");

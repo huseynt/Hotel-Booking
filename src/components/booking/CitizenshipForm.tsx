@@ -1,25 +1,36 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCitizenship } from "@/store/bookingSlice";
 import { citizenshipSchema, type CitizenshipFormData } from "@/lib/validation";
 import { countries } from "@/lib/data";
 import { BookingLayout } from "@/components/booking/BookingLayout";
+import type { RootState } from "@/store";
 
 export function CitizenshipForm() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const savedCitizenship = useSelector((state: RootState) => state.booking.citizenship);
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors, isValid },
   } = useForm<CitizenshipFormData>({
     resolver: zodResolver(citizenshipSchema),
     mode: "onChange",
+    defaultValues: {
+      citizenship: savedCitizenship || "",
+    },
   });
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
 
   const onSubmit = (data: CitizenshipFormData) => {
     dispatch(setCitizenship(data.citizenship));
