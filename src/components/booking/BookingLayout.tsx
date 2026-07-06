@@ -26,7 +26,7 @@ export function BookingLayout({
   return (
     <div className="min-h-screen bg-background px-4 py-8 text-foreground transition-colors duration-300">
       <div className="mx-auto max-w-2xl animate-fade-up">
-        <div className="mb-8">
+        <div className="mb-8 print:hidden">
           <StepProgress currentStep={currentStep} totalSteps={6} />
         </div>
 
@@ -40,7 +40,7 @@ export function BookingLayout({
           {children}
         </div>
 
-        <div className="flex justify-between gap-4">
+        <div className="flex justify-between gap-4 print:hidden">
           <Button
             variant="outline"
             onClick={onBack}

@@ -132,3 +132,16 @@ body {
     animation: scale-in 360ms ease-out both;
   }
 }
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  * {
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

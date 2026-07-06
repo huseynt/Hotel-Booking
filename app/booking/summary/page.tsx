@@ -6,8 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetBooking } from "@/store/bookingSlice";
 import { BookingLayout } from "@/components/booking/BookingLayout";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Printer } from "lucide-react";
 import { countries, destinationCountries, boardTypes, hotels, meals } from "@/lib/data";
 import { useBookingGuard } from "@/lib/booking/guards";
+import { calculateBookingTotal } from "@/lib/booking/pricing";
 import type { RootState } from "@/store";
 
 export default function SummaryPage() {
@@ -35,19 +38,17 @@ export default function SummaryPage() {
   const boardTypeName = boardTypes.find((b) => b.code === boardType)?.name;
 
   const { perDayBreakdown, grandTotal } = useMemo(() => {
-    const breakdown = dailySelections.map((daily) => {
+    const { breakdown, grandTotal: total } = calculateBookingTotal(dailySelections);
+
+    const enriched = dailySelections.map((daily, index) => {
       const hotel = hotels.find((h) => h.id === daily.hotelId);
       const lunch = meals.find((m) => m.id === daily.lunchMealId);
       const dinner = meals.find((m) => m.id === daily.dinnerMealId);
 
-      const dayTotal = (hotel?.price || 0) + (lunch?.price || 0) + (dinner?.price || 0);
-
-      return { daily, hotel, lunch, dinner, dayTotal };
+      return { daily, hotel, lunch, dinner, dayTotal: breakdown[index].dayTotal };
     });
 
-    const total = breakdown.reduce((sum, item) => sum + item.dayTotal, 0);
-
-    return { perDayBreakdown: breakdown, grandTotal: total };
+    return { perDayBreakdown: enriched, grandTotal: total };
   }, [dailySelections]);
 
   if (isChecking) return null;
@@ -55,6 +56,10 @@ export default function SummaryPage() {
   const handleNewBooking = () => {
     dispatch(resetBooking());
     router.push("/");
+  };
+
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
@@ -136,8 +141,19 @@ export default function SummaryPage() {
           </CardContent>
         </Card>
 
+        {/* Print / Export */}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handlePrint}
+          className="w-full print:hidden"
+        >
+          <Printer className="mr-2 h-4 w-4" />
+          Print / Export as PDF
+        </Button>
+
         {/* Edit Links */}
-        <div className="grid grid-cols-2 gap-2 text-xs">
+        <div className="grid grid-cols-2 gap-2 text-xs print:hidden">
           <button
             onClick={() => router.push("/booking/citizenship")}
             className="text-primary hover:underline"
